@@ -207,7 +207,8 @@ bool Copter::should_disarm_on_failsafe() {
         case STABILIZE:
         case ACRO:
             // if throttle is zero OR vehicle is landed disarm motors
-            return ap.throttle_zero || ap.land_complete;
+            return true;
+            //return ap.throttle_zero || ap.land_complete;
         case AUTO:
             // if mission has not started AND vehicle is landed, disarm motors
             return !ap.auto_armed && ap.land_complete;

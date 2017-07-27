@@ -37,12 +37,14 @@ void Copter::arm_motors_check()
             }
         }
 
+        /*  
         // arm the motors and configure for flight
         if (arming_counter == AUTO_TRIM_DELAY && motors->armed() && control_mode == STABILIZE) {
             auto_trim_counter = 250;
             // ensure auto-disarm doesn't trigger immediately
             auto_disarm_begin = millis();
         }
+        */
 
     // full left
     }else if (tmp < -4000) {
