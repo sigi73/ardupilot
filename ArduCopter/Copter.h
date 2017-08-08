@@ -933,6 +933,11 @@ private:
     void parachute_release();
     void parachute_manual_release();
 
+    bool autonomous_init(bool ignore_checks);
+    void autonomous_run();
+    bool kill_init(bool ignore_checks);
+    void kill_run();
+
     // support for AP_Avoidance custom flight mode, AVOID_ADSB
     bool avoid_adsb_init(bool ignore_checks);
     void avoid_adsb_run();

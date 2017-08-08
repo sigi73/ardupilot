@@ -58,4 +58,5 @@ void Copter::stabilize_run()
 
     // output pilot's throttle
     attitude_control->set_throttle_out(pilot_throttle_scaled, true, g.throttle_filt);
+    printf("Stabilize throttle: %.2f\n", pilot_throttle_scaled);
 }

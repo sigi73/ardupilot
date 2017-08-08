@@ -199,6 +199,7 @@ void Copter::set_mode_RTL_or_land_with_pause(mode_reason_t reason)
 }
 
 bool Copter::should_disarm_on_failsafe() {
+    return true;
     if (ap.in_arming_delay) {
         return true;
     }
@@ -207,8 +208,7 @@ bool Copter::should_disarm_on_failsafe() {
         case STABILIZE:
         case ACRO:
             // if throttle is zero OR vehicle is landed disarm motors
-            return true;
-            //return ap.throttle_zero || ap.land_complete;
+            return ap.throttle_zero || ap.land_complete;
         case AUTO:
             // if mission has not started AND vehicle is landed, disarm motors
             return !ap.auto_armed && ap.land_complete;

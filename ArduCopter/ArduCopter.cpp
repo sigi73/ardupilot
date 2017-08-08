@@ -93,10 +93,10 @@ const AP_Scheduler::Task Copter::scheduler_tasks[] = {
     SCHED_TASK(arm_motors_check,      10,     50),
     //SCHED_TASK(auto_disarm_check,     10,     50),
     //SCHED_TASK(auto_trim,             10,     75),
-    SCHED_TASK(read_rangefinder,      20,    100),
-    SCHED_TASK(update_proximity,     100,     50),
-    SCHED_TASK(update_beacon,        400,     50),
-    SCHED_TASK(update_visual_odom,   400,     50),
+    //SCHED_TASK(read_rangefinder,      20,    100),
+    //SCHED_TASK(update_proximity,     100,     50),
+    //SCHED_TASK(update_beacon,        400,     50),
+    //SCHED_TASK(update_visual_odom,   400,     50),
     SCHED_TASK(update_altitude,       10,    100),
     SCHED_TASK(run_nav_updates,       50,    100),
     SCHED_TASK(update_throttle_hover,100,     90),
@@ -113,20 +113,20 @@ const AP_Scheduler::Task Copter::scheduler_tasks[] = {
     SCHED_TASK(update_notify,         50,     90),
     SCHED_TASK(one_hz_loop,            1,    100),
     SCHED_TASK(ekf_check,             10,     75),
-    SCHED_TASK(landinggear_update,    10,     75),
-    SCHED_TASK(lost_vehicle_check,    10,     50),
+    //SCHED_TASK(landinggear_update,    10,     75),
+    //SCHED_TASK(lost_vehicle_check,    10,     50),
     SCHED_TASK(gcs_check_input,      400,    180),
     SCHED_TASK(gcs_send_heartbeat,     1,    110),
     SCHED_TASK(gcs_send_deferred,     50,    550),
     SCHED_TASK(gcs_data_stream_send,  50,    550),
-    SCHED_TASK(update_mount,          50,     75),
-    SCHED_TASK(update_trigger,        50,     75),
+    //SCHED_TASK(update_mount,          50,     75),
+    //SCHED_TASK(update_trigger,        50,     75),
     SCHED_TASK(ten_hz_logging_loop,   10,    350),
     SCHED_TASK(twentyfive_hz_logging, 25,    110),
     SCHED_TASK(dataflash_periodic,    400,    300),
     SCHED_TASK(perf_update,           0.1,    75),
     SCHED_TASK(read_receiver_rssi,    10,     75),
-    SCHED_TASK(rpm_update,            10,    200),
+    //SCHED_TASK(rpm_update,            10,    200),
     SCHED_TASK(compass_cal_update,   100,    100),
     SCHED_TASK(accel_cal_update,      10,    100),
 #if ADSB_ENABLED == ENABLED
@@ -233,6 +233,36 @@ void Copter::loop()
     // used by PI Loops
     G_Dt                    = (float)(timer - fast_loopTimer) / 1000000.0f;
     fast_loopTimer          = timer;
+
+    //static Vector3f velocity, position;
+    //Vector3f acceleration = ins.get_accel();
+    //acceleration.z += 9.8;
+    //velocity += acceleration * G_Dt;
+    /*
+    if (abs(acceleration.x) < 0.1)
+    { 
+        acceleration.x = 0.0f;
+        velocity.x = 0.0f;
+    }
+    if (abs(acceleration.y) < 0.1) 
+    {
+        acceleration.y = 0.0f;
+        velocity.y = 0.0f;
+    }
+    if (abs(acceleration.z) < 0.1)
+    {
+        acceleration.z = 0.0f;
+        velocity.z = 0.0f;
+    }
+    */
+    //position += velocity * G_Dt; 
+
+    //printf("Acceleration: x: %f, y: %f, z: %f, \
+            Velocity: x: %f, y: %f, z: %f, \
+            Position: x: %f, y: %f, z: %f\n", \
+            acceleration.x, acceleration.y, acceleration.z, \
+            velocity.x, velocity.y, velocity.z, \
+            position.x, position.y, position.z);
 
     // for mainloop failure monitoring
     mainLoop_count++;
