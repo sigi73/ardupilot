@@ -20,15 +20,24 @@ bool Copter::autonomous_init(bool ignore_checks)
 
 // stabilize_run - runs the main stabilize controller
 // should be called at 100hz or more
-#define BARO_AVERAGE_READING_NUM 30
+#define BARO_AVERAGE_READING_NUM 1
 #define TARGET_HEIGHT_LOW        0.6
 #define TARGET_HEIGHT_HIGH       1.0
+#define TARGET_HEIGHT            1.0
 #define ASCENDING_THROTTLE       0.6
 #define DESCENDING_THROTTLE      0.2
 #define HOVER_THROTTLE           0.4
 
 uint8_t baro_reading_count = 0;
 float baro_average;
+
+//float kp = 0.1f;
+//float ki = 0.0f;
+//float kd = 0.0f;
+
+float outMax = 0.5;
+float outMin = -0.5;
+
 void Copter::autonomous_run()
 {
     motors->set_desired_spool_state(AP_Motors::DESIRED_THROTTLE_UNLIMITED);
@@ -61,15 +70,35 @@ void Copter::autonomous_run()
         baro_reading_count = 0;
         baro_average /= BARO_AVERAGE_READING_NUM;
 
-        float output;
+
+        float error = TARGET_HEIGHT - baro_average;
+        static float last_error;
+        static float error_sum;
+        error_sum += error;
+        float iTerm = g.alt_i * error_sum * G_Dt;
+
+        if (iTerm > outMax) iTerm = outMax;
+        if (iTerm < outMin) iTerm = outMin;
+        float output = g.alt_p * error + iTerm + g.alt_d * last_error / G_Dt;
+        if (output > outMax) output = outMax;
+        if (output < outMin) output = outMin;
+
+        last_error = error;
+
+        output += 0.5;
+
+        /*
         if (baro_average < TARGET_HEIGHT_LOW)
             output = ASCENDING_THROTTLE;
         else if (baro_average > TARGET_HEIGHT_HIGH)
             output = DESCENDING_THROTTLE;
         else
             output = HOVER_THROTTLE;
+        */
 
         attitude_control->set_throttle_out(output, false, g.throttle_filt);
         printf("baro_average: %5.2f, throttle_output: %.2f\n", baro_average, output);
+        baro_average = 0.0f;
+        //printf("p: %f, i: %f, d: %f\n", (float)g.alt_p, (float)g.alt_i, (float)g.alt_d);
     }
 }

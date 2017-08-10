@@ -643,6 +643,29 @@ const AP_Param::Info Copter::var_info[] = {
     // @User: Standard
     GGROUP(p_pos_xy,                "POS_XY_", AC_P),
 
+
+    // @Param: ALT_P
+    // @DisplayName: Autonomos alt hold p val
+    // @Description: Autonomous alt hold p val
+    // @Range: -10.0 10.0
+    // @User: Standard
+    GSCALAR(alt_p,  "ALT_P", ALT_P_DEFAULT),
+
+    // @Param: ALT_I
+    // @DisplayName: Autonomos alt hold i val
+    // @Description: Autonomous alt hold i val
+    // @Range: -10.0 10.0
+    // @User: Standard
+    GSCALAR(alt_i,  "ALT_I", ALT_I_DEFAULT),
+
+    // @Param: ALT_D
+    // @DisplayName: Autonomos alt hold d val
+    // @Description: Autonomous alt hold d val
+    // @Range: -10.0 10.0
+    // @User: Standard
+    GSCALAR(alt_d,  "ALT_D", ALT_D_DEFAULT),
+
+
     // variables not in the g class which contain EEPROM saved variables
 
 #if CAMERA == ENABLED

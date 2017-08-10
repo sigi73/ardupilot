@@ -650,3 +650,15 @@
 #ifndef ADVANCED_FAILSAFE
 # define ADVANCED_FAILSAFE DISABLED
 #endif
+
+#ifndef ALT_P_DEFAULT
+  #define ALT_P_DEFAULT 0.1f
+#endif
+
+#ifndef ALT_I_DEFAULT
+  #define ALT_I_DEFAULT 0.0f
+#endif
+
+#ifndef ALT_D_DEFAULT
+  #define ALT_D_DEFAULT 0.0f
+#endif
