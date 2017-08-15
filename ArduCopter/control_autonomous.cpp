@@ -20,6 +20,7 @@ bool Copter::autonomous_init(bool ignore_checks)
 
 // stabilize_run - runs the main stabilize controller
 // should be called at 100hz or more
+#if 0
 #define BARO_AVERAGE_READING_NUM 1
 #define TARGET_HEIGHT_LOW        0.6
 #define TARGET_HEIGHT_HIGH       1.0
@@ -30,14 +31,43 @@ bool Copter::autonomous_init(bool ignore_checks)
 
 uint8_t baro_reading_count = 0;
 float baro_average;
+#endif
 
 //float kp = 0.1f;
 //float ki = 0.0f;
 //float kd = 0.0f;
 
-float outMax = 0.5;
-float outMin = -0.5;
 
+void Copter::autonomous_run()
+{
+    float outMax = g2.alt_outMax;
+    float outMin = g2.alt_outMin;
+
+    motors->set_desired_spool_state(AP_Motors::DESIRED_THROTTLE_UNLIMITED);
+
+    float height = (float)rangefinder_state.alt_cm / 100.0f;
+    float error = g2.alt_target_height - height;
+    static float last_error;
+    static float error_sum;
+    error_sum += error;
+    float iTerm = g2.alt_i * error_sum * G_Dt;
+
+    if (iTerm > outMax) iTerm = outMax;
+    if (iTerm < outMin) iTerm = outMin;
+    float output = g2.alt_p * error + iTerm + g2.alt_d * last_error / G_Dt;
+    if (output > outMax) output = outMax;
+    if (output < outMin) output = outMin;
+
+    last_error = error;
+
+    output += 0.5;
+
+    attitude_control->set_throttle_out(output, false, g.throttle_filt);
+    printf("rangefinder: %5.2f, throttle_output: %.2f\n", height, output);
+    //printf("p: %f, i: %f, d: %f\n", (float)g2.alt_p, (float)g2.alt_i, (float)g2.alt_d);
+}
+
+#if 0
 void Copter::autonomous_run()
 {
     motors->set_desired_spool_state(AP_Motors::DESIRED_THROTTLE_UNLIMITED);
@@ -75,11 +105,11 @@ void Copter::autonomous_run()
         static float last_error;
         static float error_sum;
         error_sum += error;
-        float iTerm = g.alt_i * error_sum * G_Dt;
+        float iTerm = g2.alt_i * error_sum * G_Dt;
 
         if (iTerm > outMax) iTerm = outMax;
         if (iTerm < outMin) iTerm = outMin;
-        float output = g.alt_p * error + iTerm + g.alt_d * last_error / G_Dt;
+        float output = g2.alt_p * error + iTerm + g2.alt_d * last_error / G_Dt;
         if (output > outMax) output = outMax;
         if (output < outMin) output = outMin;
 
@@ -99,6 +129,7 @@ void Copter::autonomous_run()
         attitude_control->set_throttle_out(output, false, g.throttle_filt);
         printf("baro_average: %5.2f, throttle_output: %.2f\n", baro_average, output);
         baro_average = 0.0f;
-        //printf("p: %f, i: %f, d: %f\n", (float)g.alt_p, (float)g.alt_i, (float)g.alt_d);
+        //printf("p: %f, i: %f, d: %f\n", (float)g2.alt_p, (float)g2.alt_i, (float)g2.alt_d);
     }
 }
+#endif

@@ -644,26 +644,7 @@ const AP_Param::Info Copter::var_info[] = {
     GGROUP(p_pos_xy,                "POS_XY_", AC_P),
 
 
-    // @Param: ALT_P
-    // @DisplayName: Autonomos alt hold p val
-    // @Description: Autonomous alt hold p val
-    // @Range: -10.0 10.0
-    // @User: Standard
-    GSCALAR(alt_p,  "ALT_P", ALT_P_DEFAULT),
-
-    // @Param: ALT_I
-    // @DisplayName: Autonomos alt hold i val
-    // @Description: Autonomous alt hold i val
-    // @Range: -10.0 10.0
-    // @User: Standard
-    GSCALAR(alt_i,  "ALT_I", ALT_I_DEFAULT),
-
-    // @Param: ALT_D
-    // @DisplayName: Autonomos alt hold d val
-    // @Description: Autonomous alt hold d val
-    // @Range: -10.0 10.0
-    // @User: Standard
-    GSCALAR(alt_d,  "ALT_D", ALT_D_DEFAULT),
+    
 
 
     // variables not in the g class which contain EEPROM saved variables
@@ -1026,6 +1007,48 @@ const AP_Param::GroupInfo ParametersG2::var_info[] = {
     // @Path: ../libraries/AP_VisualOdom/AP_VisualOdom.cpp
     AP_SUBGROUPINFO(visual_odom, "VISO", 18, ParametersG2, AP_VisualOdom),
 #endif
+
+    // @Param: ALT_P
+    // @DisplayName: Autonomous alt hold p val
+    // @Description: Autonomous alt hold p val
+    // @Range: -10.0 10.0
+    // @User: Standard
+    AP_GROUPINFO("ALT_P", 19, ParametersG2, alt_p, ALT_P_DEFAULT),
+
+    // @Param: ALT_I
+    // @DisplayName: Autonomous alt hold i val
+    // @Description: Autonomous alt hold i val
+    // @Range: -10.0 10.0
+    // @User: Standard
+    AP_GROUPINFO("ALT_I", 20, ParametersG2, alt_i, ALT_I_DEFAULT),
+
+    // @Param: ALT_D
+    // @DisplayName: Autonomous alt hold d val
+    // @Description: Autonomous alt hold d val
+    // @Range: -10.0 10.0
+    // @User: Standard
+    AP_GROUPINFO("ALT_D", 21, ParametersG2, alt_d, ALT_D_DEFAULT),
+
+    // @Param: ALT_T_HEIGHT
+    // @DisplayName: Autonomous alt hold height
+    // @Description: Autonomous alt hold height
+    // @Range: 0.0 10.0
+    // @User: Standard
+    AP_GROUPINFO("ALT_T_HEIGHT", 22, ParametersG2, alt_target_height, ALT_TARGET_HEIGHT_DEFAULT),
+
+    // @Param: ALT_OUTMAX
+    // @DisplayName: Autonomous alt hold maximum throttle
+    // @Description: Autonomous alt hold maximum throttle
+    // @Range: -0.5 0.5
+    // @User: Standard
+    AP_GROUPINFO("ALT_OUTMAX", 23, ParametersG2, alt_outMax, ALT_OUTMAX_DEFAULT),
+
+    // @Param: ALT_OUTMIN
+    // @DisplayName: Autonomous alt hold minimum throttle
+    // @Description: Autonomous alt hold minimum throttle
+    // @Range: -0.5 0.5
+    // @User: Standard
+    AP_GROUPINFO("ALT_OUTMIN", 24, ParametersG2, alt_outMin, ALT_OUTMIN_DEFAULT),
 
     AP_GROUPEND
 };

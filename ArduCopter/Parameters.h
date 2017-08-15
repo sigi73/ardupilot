@@ -197,13 +197,6 @@ public:
         k_param_pos_control,
         k_param_circle_nav,     // 104
 
-        //
-        // 105: Autonomous control
-        //
-        k_param_alt_p = 105,
-        k_param_alt_i,
-        k_param_alt_d,
-
         // 110: Telemetry control
         //
         k_param_gcs0 = 110,
@@ -486,9 +479,6 @@ public:
     AC_P                    p_pos_xy;
     AC_P                    p_alt_hold;
 
-    AP_Float                alt_p;
-    AP_Float                alt_i;
-    AP_Float                alt_d;
 
     // Autotune
     AP_Int8                 autotune_axis_bitmask;
@@ -580,6 +570,13 @@ public:
     
     // control over servo output ranges
     SRV_Channels servo_channels;
+
+    AP_Float                alt_p;
+    AP_Float                alt_i;
+    AP_Float                alt_d;
+    AP_Float                alt_target_height;
+    AP_Float                alt_outMax;
+    AP_Float                alt_outMin;
 };
 
 extern const AP_Param::Info        var_info[];

@@ -662,3 +662,15 @@
 #ifndef ALT_D_DEFAULT
   #define ALT_D_DEFAULT 0.0f
 #endif
+
+#ifndef ALT_TARGET_HEIGHT_DEFAULT
+    #define ALT_TARGET_HEIGHT_DEFAULT 1.0f
+#endif
+
+#ifndef ALT_OUTMAX_DEFAULT
+    #define ALT_OUTMAX_DEFAULT 0.5f
+#endif
+
+#ifndef ALT_OUTMIN_DEFAULT
+    #define ALT_OUTMIN_DEFAULT -0.5f
+#endif
